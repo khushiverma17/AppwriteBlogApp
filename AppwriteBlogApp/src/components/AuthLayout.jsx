@@ -1,7 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import {useNavigate} from "react-router-dom"
 import {useSelector } from "react-redux"
+import { useEffect } from "react";
 
 //this is a mechanism how to protect our pages and routes
 
@@ -16,15 +17,15 @@ export default function Protected({children, authentication = true}){
     useEffect(()=>{
         // if(user is saying it is true(authentication) && checking from store)
         if(authentication && authStatus!==authentication){
-            navigate("/")
+            navigate("/login")
         }
         else if(!authentication && authStatus!==authentication){
-            navigate("/login")
+            navigate("/")
         }
         setLoader(false);
     },[authStatus, navigate, authentication])
 
     return (
-        loader ? <div>Loading...</div> : {children}
+        loader ? <div>Loading...</div> : <>{children}</>
     )
 }

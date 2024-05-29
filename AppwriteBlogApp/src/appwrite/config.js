@@ -79,7 +79,7 @@ export class Service{
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                100
+                queries
             )
         }catch(error){
             console.log("Appwrite service :: getPosts :: error", error);
@@ -89,10 +89,11 @@ export class Service{
     //file upload method
     async uploadFile(file){
         try{
-            return await this.bucket.createFile();
-            conf.appwriteBucketId
+            return await this.bucket.createFile(
+            conf.appwriteBucketId,
             ID.unique(),
             file
+            )
         }catch(error){
             console.log("Appwrite service :: uploadFile :: error", error);
             return false;

@@ -26,13 +26,14 @@ function Post(){
     }, [slug, navigate])
 
     const deletePost = ()=>{
-        appwriteService.deletePost(post.$id).then((status)=>{
+        appwriteService.deletePost(post.$id).then(async (status)=>{
             if(status){
                 appwriteService.deleteFile(post.featuredImage)
                 navigate("/")
             }
         })
     }
+    window.scrollTo(0, 0);
 
     return post ? (
         <div className="py-8">
@@ -46,7 +47,7 @@ function Post(){
 
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
-                            <Link to={`edit-post/${post.$id}`}>
+                            <Link to={`/edit-post/${post.$id}`}>
                                 <Button
                                 bgColor="bg-green-500"
                                 className="mr-3"
@@ -63,6 +64,9 @@ function Post(){
                             </Button>
                         </div>
                     )}
+                    {!isAuthor && (
+                        <div>Not an author ji</div>
+                    )}
                 </div>
                 <div className="w-full mb-6">
                     <h1 className="text-2xl font-bold">
@@ -75,6 +79,7 @@ function Post(){
             </Container>
         </div>
     ) : null
+    
 
 }
 import { formatProdErrorMessage } from "@reduxjs/toolkit";

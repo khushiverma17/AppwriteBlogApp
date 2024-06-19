@@ -17,6 +17,7 @@ function Login (){
     const login = async(data)=>{
         setError("")
         try{
+            console.log("data is ", data);
             const session = await authService.login(data)
             if(session){
                 const userData= await authService.getCurrentUser()
@@ -49,7 +50,7 @@ function Login (){
                     to="/signup"
                     className="font-medium text-primary transition-all duration-200 hover:underline"
                     >
-                        Create Account
+                        Sign Up
                     </Link>
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
@@ -79,6 +80,7 @@ function Login (){
                         />
                         <Button
                         type="submit"
+                        className="w-full"
                             SignIn
                         >SignIn</Button>
                     </div>

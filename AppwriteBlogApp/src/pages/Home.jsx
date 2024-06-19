@@ -8,7 +8,7 @@
 //     useEffect(()=>{
 //         appwriteservice.getPosts([]).then((posts)=>{
 //             if(posts){
-//                 setPosts(posts)
+//                 setPosts(posts.documents)
 //             }
 //         })
 //     },[])
@@ -32,11 +32,11 @@
 //         <div className="w-full py-8">
 //             <Container>
 //                 <div className="flex flex-wrap">
-//                     {posts.map((post)=>{
-//                         <div key={post.$id} className="p-2 w-1/4">
-//                             <PostCard {...post}/>
+//                 {posts.map((post) => (
+//                         <div key={post.$id} className='p-2 w-1/4'>
+//                             <PostCard {...post} />
 //                         </div>
-//                     })}
+//                     ))}
 //                 </div>
 //             </Container>
 //         </div>
@@ -49,9 +49,12 @@
 import React, {useEffect, useState} from 'react'
 import appwriteService from "../appwrite/config";
 import {Container, PostCard} from '../components'
+import { useSelector } from 'react-redux';
+import Skeleton from '../components/Skeleton';
 
 function Home() {
     const [posts, setPosts] = useState([])
+    const authStatus = useSelector(state => state.auth.status)
 
     useEffect(() => {
         appwriteService.getPosts().then((posts) => {
@@ -61,7 +64,7 @@ function Home() {
         })
     }, [])
   
-    if (posts.length === 0) {
+    if (posts.length === 0 || !authStatus) {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -73,6 +76,13 @@ function Home() {
                         </div>
                     </div>
                 </Container>
+            </div>
+        )
+    }
+    if (posts.length === 0 && authStatus) {
+        return (
+            <div className='h-[70vh] flex justify-center items-center'>
+                <Skeleton />
             </div>
         )
     }

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 function EditPost(){
-    const [post, setPosts] = useState([]);
+    const [post, setPosts] = useState(null);
     const {slug} = useParams()
     const navigate = useNavigate()
 
@@ -14,10 +14,10 @@ function EditPost(){
             appwriteService.getPost(slug).then((post)=>{
                 if(post){
                     setPosts(post)
-                }else{
-                    navigate("/")
                 }
             })
+        }else{
+            navigate("/")
         }
 
     },[slug, navigate])

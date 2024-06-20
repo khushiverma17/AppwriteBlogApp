@@ -7,10 +7,11 @@ import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 // import { AddPost, AllPosts, AuthLayout, EditPost, Home, Login, Post, Signup } from './components/index.js'
 import Home from './pages/Home.jsx'
-import { AuthLayout, Login } from './components/index.js'
+import { AuthLayout } from './components/index.js'
 
 import AddPost from "./pages/AddPost";
 import Signup from './pages/SignUp.jsx'
+import Login from './pages/Login.jsx'
 import EditPost from "./pages/EditPost";
 import Post from "./pages/Post";
 
@@ -19,17 +20,17 @@ import AllPosts from "./pages/AllPosts";
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: "/",
-        element: <Home/>,
+        element: <Home />,
       },
       {
         path: "/login",
         element: (
           <AuthLayout authentication={false}>
-            <Login/>
+            <Login />
           </AuthLayout>
         )
       },
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
         path: "/signup",
         element: (
           <AuthLayout authentication={false}>
-            <Signup/>
+            <Signup />
           </AuthLayout>
         )
       },
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={true}>
             {" "}
-            <AllPosts/>
+            <AllPosts />
           </AuthLayout>
         )
       },
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={true}>
             {" "}
-            <AddPost/>
+            <AddPost />
           </AuthLayout>
         )
       },
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
         path: "/edit-post/:slug",
         element: (
           <AuthLayout authentication={true}>
-            <EditPost/>
+            <EditPost />
           </AuthLayout>
         )
       },
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
         path: "/post/:slug",
         element: (
           <AuthLayout authentication={true}>
-            <Post/>
+            <Post />
           </AuthLayout>
         )
       },
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>,
 )

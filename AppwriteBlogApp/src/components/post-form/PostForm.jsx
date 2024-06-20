@@ -1,9 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Skeleton from "../Skeleton";
 
 export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -16,9 +17,11 @@ export default function PostForm({ post }) {
     });
 
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
     const userData = useSelector((state) => state.auth.userData)
 
     const submit = async (data) => {
+        setLoading(true)
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
@@ -43,29 +46,30 @@ export default function PostForm({ post }) {
 
                 const fileId = file.$id;
                 console.log("file id is ", file.$id)
-                data.featuredImage   = fileId;
+                data.featuredImage = fileId;
                 console.log(data.featuredImage)
                 console.log("userdata is ", userData)
-                if(userData){
+                if (userData) {
                     // const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
                     console.log("usedata.$id is ", userData.$id);
                     const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
                     console.log("after request")
-    
-    
+
+
                     if (dbPost) {
                         console.log("db postis theree")
                         navigate(`/post/${dbPost.$id}`);
                     }
-                    else{
+                    else {
                         console.log("unable to create post")
                     }
                 }
-                else{
+                else {
                     console.log("userdate is not available")
                 }
             }
         }
+        setLoading(false)
     };
 
     const slugTransform = useCallback((value) => {
@@ -89,6 +93,11 @@ export default function PostForm({ post }) {
         return () => subscription.unsubscribe();
     }, [watch, slugTransform, setValue]);
 
+    if (loading) {
+        return (
+            <div><Skeleton /></div>
+        )
+    }
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">

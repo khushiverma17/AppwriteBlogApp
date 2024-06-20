@@ -66,7 +66,7 @@ export {
     Button,
     PostForm,
     PostCard,
-    AuthLayout, 
+    AuthLayout,
     Input,
     Select,
 }

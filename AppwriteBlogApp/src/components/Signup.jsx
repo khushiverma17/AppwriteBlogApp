@@ -1,19 +1,22 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import authService from "../appwrite/auth";
 import { Link, useNavigate } from "react-router-dom"
 import { login } from "../store/authSlice";
-import {Button, Input, Logo} from "./index.js"
-import {useDispatch } from "react-redux"
+import { Button, Input, Logo } from "./index.js"
+import { useDispatch } from "react-redux"
 import { useForm } from "react-hook-form";
+import Skeleton from "./Skeleton.jsx";
 
 function Signup() {
     const navigate = useNavigate();
     const [error, setError] = useState();
     const dispatch = useDispatch();
-    const {register, handleSubmit} = useForm();
+    const { register, handleSubmit } = useForm();
+    const [loading, setLoading] = useState(false)
 
     const create = async (data) => {
         setError("")
+        setLoading(true)
         try {
             const userData = await authService.createAccount(data)
             if (userData) {
@@ -25,12 +28,19 @@ function Signup() {
 
         } catch (error) {
             setError(error.message)
+        } finally {
+            setLoading(false)
         }
     }
 
+    if (loading) {
+        return (
+            <div><Skeleton /></div>
+        )
+    }
     return (
         <div className="flex items-center justify-center">
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
+            <div className={`mx-auto w-full max-w-lg bg-[#90bbdc] rounded-xl p-10 border border-black/10`}>
                 <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                         <Logo width="100%" />
@@ -52,7 +62,7 @@ function Signup() {
                 <form onSubmit={handleSubmit(create)}>
                     <div className="space-y-5">
                         <Input
-                            label="Full Name: "
+                            label="Full Name "
                             placeholder="Enter your full name"
                             {...register("name", {
                                 required: true
@@ -74,15 +84,15 @@ function Signup() {
                             label="Password"
                             type="password"
                             placeholder="Enter password: "
-                            {...register("password",{
+                            {...register("password", {
                                 required: true,
                             })}
                         />
                         <Button
-                        type="submit"
+                            type="submit"
                         >
                             Create Account
-                            
+
                         </Button>
                     </div>
                 </form>

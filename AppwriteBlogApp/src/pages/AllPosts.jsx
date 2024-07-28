@@ -6,18 +6,19 @@ import Skeleton from "../components/Skeleton";
 function AllPosts() {
     //this posts array will consists of all the posts
     const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     useEffect(() => { }, [])
     //query is empty now
     appwriteService.getPosts([]).then((posts) => {
         if (posts) {
             setPosts(posts.documents)
         }
+        console.log("yes")
         setLoading(false)
     })
     if (loading) {
         return (
-            <div><Skeleton /></div>
+            <div className='h-[70vh] flex justify-center items-center'><Skeleton /></div>
         )
     }
     return (

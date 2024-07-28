@@ -10,19 +10,23 @@ function Post() {
     const [post, setPost] = useState(null)
     const { slug } = useParams()
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const userData = useSelector((state) => state.auth.userData)
 
     const isAuthor = post && userData ? post.userId === userData.$id : false
 
+    
     useEffect(() => {
         if (slug) {
+            setLoading(true)
             appwriteService.getPost(slug).then((post) => {
                 if (post) setPost(post)
                 else navigate("/")
-            })
+                setLoading(false)
+        })
         } else {
+            setLoading(false)
             navigate("/")
         }
     }, [slug, navigate])
@@ -34,14 +38,14 @@ function Post() {
                 appwriteService.deleteFile(post.featuredImage)
                 navigate("/")
             }
+            setLoading(false)
         })
-        setLoading(false)
     }
     window.scrollTo(0, 0);
 
     if (loading) {
         return (
-            <div><Skeleton /></div>
+            <div className='h-[70vh] flex justify-center items-center'><Skeleton /></div>
         )
     }
 

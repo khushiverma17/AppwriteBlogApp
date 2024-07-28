@@ -39,7 +39,7 @@ function Login() {
 
     if (loading) {
         return (
-            <div><Skeleton /></div>
+            <div className='h-[70vh] flex justify-center items-center'><Skeleton /></div>
         )
     }
 

@@ -50,9 +50,8 @@ export default function PostForm({ post }) {
                 console.log(data.featuredImage)
                 console.log("userdata is ", userData)
                 if (userData) {
-                    // const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
-                    console.log("usedata.$id is ", userData.$id);
-                    const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                    console.log("usedata.$id is ", userData.userData.$id);
+                    const dbPost = await appwriteService.createPost({ ...data, userId: userData.userData.$id });
                     console.log("after request")
 
 
@@ -95,7 +94,7 @@ export default function PostForm({ post }) {
 
     if (loading) {
         return (
-            <div><Skeleton /></div>
+            <div className='h-[70vh] flex justify-center items-center'><Skeleton /></div>
         )
     }
     return (
@@ -135,12 +134,12 @@ export default function PostForm({ post }) {
                         />
                     </div>
                 )}
-                <Select
+                {/* <Select
                     options={["active", "inactive"]}
                     label="Status"
                     className="mb-4"
                     {...register("status", { required: true })}
-                />
+                /> */}
                 <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
                     {post ? "Update" : "Submit"}
                 </Button>

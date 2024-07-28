@@ -29,7 +29,7 @@ export default function RTE({ name, control, label,
                     <Editor
                         apiKey={import.meta.env.VITE_RTE_APIKEY}
                         onInit={(_evt, editor) => editorRef.current = editor}
-                        initialValue="<p></p>"
+                        initialValue={defaultValue}
                         init={{
                             height: 500,
                             menubar: false,
